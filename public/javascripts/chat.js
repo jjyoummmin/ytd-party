@@ -18,18 +18,19 @@ function onYouTubeIframeAPIReady() {
   })();
 }
 
+function openNav() {
+  document.getElementById("mySidenav").style.width = "300px";
+  document.getElementById("main").style.marginRight = "330px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginRight = "0";
+}
+
+
 //DOM 에 이벤트 리스너 등록
 $(function () {
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "300px";
-    document.getElementById("main").style.marginRight = "330px";
-  }
-
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginRight = "0";
-  }
-
   $('#playBtn').on('click', playVideo);
   $('#pauseBtn').on('click', pauseVideo);
 })
@@ -40,6 +41,7 @@ let $slider = $('#slider');
 function playVideo(){
   socket.emit('play')
   player.playVideo();
+  // 이거 때매 슬라이더 움직임
   setInterval(()=>{
       let fraction = player.getCurrentTime()/player.getDuration() * 100;
       $slider.val(fraction);
@@ -55,7 +57,6 @@ function pauseVideo() {
 function changeTime(e) {
   console.log("changeTime");
   let goTo = player.getDuration() * (e.value / 100);
-  console.log(goTo);
   player.seekTo(goTo, true);
   e.value = goTo;
   socket.emit('update', goTo);
