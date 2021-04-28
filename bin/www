@@ -29,6 +29,29 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+//클라이언트와 웹소켓 연결
+const socket = require('socket.io');
+const io = socket(server);
+
+io.on('connection', (socket)=>{
+    console.log('Connected');
+    socket.on('update', (data)=>{
+        console.log(data);
+        socket.broadcast.emit('update',data);
+    });
+    socket.on('play',()=>{
+      console.log("play");
+        socket.broadcast.emit('play')
+    });
+    socket.on('pause',()=>{
+        socket.broadcast.emit('pause');
+    })
+    socket.on('slider', (data)=>{
+        socket.broadcast.emit('slider', data)
+    })
+});
+
+
 /**
  * Normalize a port into a number, string, or false.
  */
