@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>youtube play 🎉</title>
+    <link rel='stylesheet' href='/stylesheets/home.css' />
+  </head>
+  <body>
+  <div>펭수님 안녕하세요 <a href="/">로그아웃</a>
+
+    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">플레이</button>
+
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action="/create_room">
+    <div class="container">
+      <h1>Sign Up</h1>
+      <p>재생할 비디오의 url을 입력해 주세요</p>
+      <hr>
+      <label for="url"><b>URL</b></label>
+      <input type="text" placeholder="url 입력하세요" name="url" required>
+      
+      <div class="clearfix">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">취소</button>
+        <button type="submit" class="signupbtn">재생 시작</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+  </div>
+
+
+  <div class="rooms">
+
+       
+  </div>
+
+  </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="/javascripts/home.js"></script>
+</html>
