@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/home', function(req, res, next) {
+  console.log("user", req.user);
   res.render('home');
 });
 

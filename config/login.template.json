@@ -1,0 +1,22 @@
+{
+    "google":{
+        "clientID": "",
+        "clientSecret": "",
+        "callbackURL": ""
+    },
+    "facebook":{
+        "clientID": "",
+        "clientSecret": "",
+        "callbackURL": ""
+    },
+    "naver":{
+        "clientID": "",
+        "clientSecret": "",
+        "callbackURL": ""
+    },
+    "kakao":{
+        "clientID" : "",
+        "clientSecret": "", 
+        "callbackURL" : ""
+    }
+}

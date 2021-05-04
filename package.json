@@ -3,15 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www --verbose" 
   },
   "nodemonConfig": {
     "ignore": [
-      "db.json"
+      "db/*.json"
     ]
   },
   "dependencies": {
-    "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
@@ -20,8 +19,13 @@
     "get-youtube-title": "^1.0.1",
     "http-errors": "~1.6.3",
     "lowdb": "^1.0.0",
+    "lowdb-session-store": "^1.1.1",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-kakao": "^1.0.1",
+    "passport-naver": "^1.0.6",
     "shortid": "^2.2.16",
     "socket.io": "^4.0.1"
   }
