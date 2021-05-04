@@ -1,10 +1,12 @@
 
-
+console.log("hello");
+let url = window.location.href;
+let rid = url.slice(url.lastIndexOf('/')+1);
+console.log(url,rid);
 let player;
 function onYouTubeIframeAPIReady() {
   (async function () {
-    let url = window.location.href;
-    let rid = url.slice(url.lastIndexOf('/')+1);
+    console.log("ytd-ready");
     video_id = await $.ajax({ url: `/api/video_id?rid=${rid}`, type: "GET" });
     player = new YT.Player('player', {
       height: '500px',
@@ -35,26 +37,28 @@ function closeNav() {
 
 //DOM 에 이벤트 리스너 등록
 $(function () {
+  console.log("ready");
   $('#playBtn').on('click', playVideo);
   $('#pauseBtn').on('click', pauseVideo);
 })
 
 //소켓 관련
 let socket = io.connect('http://localhost:3000');
+socket.emit('join', rid);
 let $slider = $('#slider');
 function playVideo(){
-  socket.emit('play')
+  socket.emit('play',rid)
   player.playVideo();
   // 이거 때매 슬라이더 움직임
   setInterval(()=>{
       let fraction = player.getCurrentTime()/player.getDuration() * 100;
       $slider.val(fraction);
-      socket.emit('slider', slider.value);
+      socket.emit('slider', rid, slider.value);
   },200)
 }
 
 function pauseVideo() {
-  socket.emit('pause')
+  socket.emit('pause',rid)
   player.pauseVideo();
 }
 
@@ -63,7 +67,7 @@ function changeTime(e) {
   let goTo = player.getDuration() * (e.value / 100);
   player.seekTo(goTo, true);
   e.value = goTo;
-  socket.emit('update', goTo);
+  socket.emit('update', rid, goTo);
 }
 
 socket.on('update', (data) => {
