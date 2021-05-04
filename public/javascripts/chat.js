@@ -1,6 +1,10 @@
+
+
 let player;
 function onYouTubeIframeAPIReady() {
   (async function () {
+    let url = window.location.href;
+    let rid = url.slice(url.lastIndexOf('/')+1);
     video_id = await $.ajax({ url: `/api/video_id?rid=${rid}`, type: "GET" });
     player = new YT.Player('player', {
       height: '500px',

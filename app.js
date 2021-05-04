@@ -4,11 +4,29 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
-var loginRouter = require('./routes/login');
+
 
 var app = express();
+
+//db (세션저장소로 사용할)
+const lowdb = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
+const sessionadapter = new FileSync('db/session.json', { defaultValue: { sessions: [] } });
+const sessiondb = lowdb(sessionadapter);
+const adapter = new FileSync('db/operation.json');
+const db = lowdb(adapter);
+db.defaults({ members:[], rooms:[] }).write()
+
+//session
+const session = require('express-session')
+const LowdbStore = require('lowdb-session-store')(session);
+//passport
+const passport = require('passport');
+const passportConfig = require('./passportConfig');
+
+var indexRouter = require('./routes/index')(db);
+var apiRouter = require('./routes/api')(db);
+var loginRouter = require('./routes/login');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,6 +37,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  store: new LowdbStore(sessiondb.get('sessions'), {
+    ttl: 86400
+  }),
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig(passport,db);         
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
@@ -39,5 +69,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
