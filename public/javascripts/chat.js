@@ -40,6 +40,13 @@ $(function () {
   console.log("ready");
   $('#playBtn').on('click', playVideo);
   $('#pauseBtn').on('click', pauseVideo);
+  $('#form').on('submit', function(e) {
+    e.preventDefault();
+    if ($('#input').val()) {
+      socket.emit('chat message', rid,  $('#input').val());
+      $('#input').val('');
+    }
+  });
 })
 
 //소켓 관련
@@ -87,3 +94,9 @@ socket.on('pause', () => {
 socket.on('slider', (data) => {
   $slider.val(data);
 })
+
+socket.on('chat message', (msg)=> {
+  console.log('got message', msg);
+  $('#messages').append(`<li>${msg}</li>` );
+  window.scrollTo(0, document.body.scrollHeight);
+});

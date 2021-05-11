@@ -60,6 +60,11 @@ io.on('connection', (socket)=>{
     socket.on('slider', (rid,data)=>{
         socket.to(rid).emit('slider', data)
     })
+
+    socket.on('chat message', (rid, msg) => {
+      console.log('message: ' + msg, rid);
+      socket.to(rid).emit('chat message', msg);
+    });
 });
 
 

@@ -10,7 +10,7 @@ module.exports = (db) => {
 
 
   router.get('/home', function (req, res, next) {
-    res.render('home', { name: req.user.name });
+    res.render('home', { name: req.user ? req.user.name : "모름" });
   });
 
   router.get('/create_room', function (req, res, next) {
@@ -26,7 +26,7 @@ module.exports = (db) => {
 
   router.get('/chat/:id', function (req, res, next) {
     let host = db.get('rooms').find({room_id:req.params.id}).value().host_id;
-    let user = req.user.id;
+    let user = req.user? req.user.id : undefined;
     if(host===user) res.render('hostchat');
     else res.render('memberchat');
   });
