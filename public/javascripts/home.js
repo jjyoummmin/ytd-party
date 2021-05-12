@@ -1,13 +1,13 @@
 $(async function () {
     try {
-        let room_info = await $.ajax({ url: "/api/room_info", type: "GET" });
+        let room_info = await $.ajax({ url: "/api/room_info_all", type: "GET" });
         let $rooms = $('.rooms');
 
         function add_thumbnail(info) {
             const {video_url, title, host, room_id} = info;
             let video_id = [...video_url.match(/(?<=\?v=).+$/)][0];
             let elem = `<li>
-                <a href="/chat/${room_id}"><img src="https://img.youtube.com/vi/${video_id}/mqdefault.jpg"></a>
+                <a href="/chat?rid=${room_id}"><img src="https://img.youtube.com/vi/${video_id}/mqdefault.jpg"></a>
                 <div>${title}</div>
                 <div>${host}님이 호스트 중</div>
                 </li>`;

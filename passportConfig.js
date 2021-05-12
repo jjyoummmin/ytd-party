@@ -6,14 +6,14 @@ const loginConfig = require('./config/login.json');
 const shortid = require('shortid');
 
 module.exports = (passport, db) => {
+  //회원가입
   function register(info) {
     let exist = db.get('members').find({ email: info.email }).value();
     if (exist) return exist;
-    let new_user = { ...info, id: shortid.generate() };
+    let new_user = { ...info, id: shortid.generate(), profile_img : Math.floor(Math.random() * 10)};
     db.get('members').push(new_user).write();
     return new_user;
   }
-
 
   function googleCallback(accessToken, refreshToken, profile, done) {
     const info = {

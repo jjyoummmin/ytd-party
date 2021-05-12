@@ -1,25 +1,24 @@
 var createError = require('http-errors');
 var express = require('express');
+var app = express();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-
-
-var app = express();
-
-//db (세션저장소로 사용할)
+//db (세션저장소 & 메인DB)
 const lowdb = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const sessionadapter = new FileSync('db/session.json', { defaultValue: { sessions: [] } });
+const sessionadapter = new FileSync('db/session.json');
 const sessiondb = lowdb(sessionadapter);
-const adapter = new FileSync('db/operation.json');
+sessiondb.defaults({ sessions: [] }).write();
+const adapter = new FileSync('db/maindb.json');
 const db = lowdb(adapter);
 db.defaults({ members:[], rooms:[] }).write()
 
 //session
 const session = require('express-session')
 const LowdbStore = require('lowdb-session-store')(session);
+const sessionConfig = require('./config/session.json');
 //passport
 const passport = require('passport');
 const passportConfig = require('./passportConfig');
@@ -39,7 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: sessionConfig.SECRET,
   resave: false,
   saveUninitialized: true,
   store: new LowdbStore(sessiondb.get('sessions'), {

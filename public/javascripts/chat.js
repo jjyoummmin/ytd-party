@@ -1,7 +1,7 @@
 
 console.log("hello");
 let url = window.location.href;
-let rid = url.slice(url.lastIndexOf('/')+1);
+let rid = [...url.match(/(?<=\?rid=).+$/)][0];
 console.log(url,rid);
 let player;
 function onYouTubeIframeAPIReady() {
