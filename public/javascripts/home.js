@@ -1,4 +1,8 @@
 $(async function () {
+    $('#playbtn').click(()=>$('#id01').show());
+    $('.close').click(()=>$('#id01').hide());
+    $('.cancelbtn').click(()=>$('#id01').hide());
+
     try {
         let room_info = await $.ajax({ url: "/api/room_info_all", type: "GET" });
         let $rooms = $('.rooms');
