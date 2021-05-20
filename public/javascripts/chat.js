@@ -25,6 +25,7 @@ window.onYouTubeIframeAPIReady = () => {
 }
 
 $(function () {
+  const name = $('#name').text();
   //각종 이벤트 핸들러 등록하기
   //두번이상 참조되는 dom들은 따로 상수화
   const $mySidenav = $('#mySidenav');
@@ -59,7 +60,7 @@ $(function () {
     setInterval(() => {
       let fraction = player.getCurrentTime() / player.getDuration() * 100;
       $slider.val(fraction);
-      socket.emit('slider', rid, slider.value);
+      socket.emit('slider', slider.value);
     }, 200)
   }
 
@@ -73,7 +74,7 @@ $(function () {
     console.log("changeTime");
     let goTo = player.getDuration() * (self.value / 100);
     self.value = goTo;
-    socket.emit('update', rid, goTo);
+    socket.emit('update', goTo);
     player.seekTo(goTo, true);
 
   }
@@ -87,7 +88,7 @@ $(function () {
     let msg =  $input.val();
     $input.val('');
     if (msg) {
-      socket.emit('chat message', rid, msg);
+      socket.emit('chat message', msg);
       $messages.append(`<li class="me">${msg}</li>`);
       document.getElementById('mySidenav').scrollTo(0, document.body.scrollHeight);
     }
@@ -95,7 +96,7 @@ $(function () {
 
   //서버와 소켓 통신으로 전환 (http => 웹소켓)
   let socket = io.connect('http://localhost:3000');
-  socket.emit('join', rid);
+  socket.emit('join', rid, name);
 
 
   socket.on('update', (data) => {
@@ -116,9 +117,14 @@ $(function () {
     $slider.val(data);
   })
 
-  socket.on('chat message', (msg) => {
-    console.log('got message', msg);
-    $messages.append(`<li>${msg}</li>`);
+  socket.on('info message', (msg)=>{
+    $messages.append(`<li class="info">${msg}</li>`);
+    document.getElementById('mySidenav').scrollTo(0, document.body.scrollHeight);
+  })
+
+  socket.on('chat message', (data) => {
+    let {name, msg} = data;
+    $messages.append(`<li>${name} : ${msg}</li>`);
     document.getElementById('mySidenav').scrollTo(0, document.body.scrollHeight);
   });
 

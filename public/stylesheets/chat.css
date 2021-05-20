@@ -134,4 +134,10 @@ body {
     background-color: rgb(115 109 109);
     text-align:left;
   }
+
+  #messages > li.info {
+    color:#848484;
+    background-color: rgb(41 41 41);
+    text-align:left;
+  }
   

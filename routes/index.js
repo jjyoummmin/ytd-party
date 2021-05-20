@@ -24,8 +24,9 @@ module.exports = (db) => {
     }else{
       let host = db.get('rooms').find({room_id:rid}).value().host_id;
       let user = req.user.id;
-      if(host===user) res.render('hostchat');
-      else res.render('memberchat');
+      console.log("user", req.user);
+      if(host===user) res.render('hostchat', { name: req.user.name });
+      else res.render('memberchat', { name: req.user.name});
     }
    
   });
