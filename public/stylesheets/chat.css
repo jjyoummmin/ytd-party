@@ -3,93 +3,135 @@ body {
   color:white;
 }
 
+/* 메인화면 */
+#main{
+  position: relative;
+  margin:0px;
+  transition: margin-right .5s;
+  padding: 16px;
+}
+
+.leavechat{
+  position: absolute;
+  top:0px;
+  right:30px;
+  color: white;
+  font-size:18px;
+  text-decoration: none;
+}
+
+.leavechat:hover::after{
+  content:' 나가기'
+}
+
+#player{
+  margin-top: 18px;
+}
+
+#slider{
+  display:block;
+  width:100%;
+}
+
+.chatopen{
+  cursor:pointer;
+  position:absolute;
+  right:30px;
+}
+
+.chatopen.hide{
+  display:none;
+}
   
-  .sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    background-color: #111;
-    overflow-y: scroll;
-    transition: 0.5s;
-    padding-top: 60px;
-  }
-  
-  .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-  }
-  
-  .sidenav a:hover {
-    color: #f1f1f1;
-  }
-  
-  .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
-  
-  #main {
-    transition: margin-right .5s;
-    padding: 16px;
-  }
+
+/* 채팅바 */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-y: scroll;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+
+.sidenav .closebtn {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidenav .closebtn:hover {
+  color: #f1f1f1;
+}
+
   
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
 
-  #slider{
-    display:block;
-    width:100%;
+
+/* 채팅 입력 */
+  #form { 
+    background: rgba(0, 0, 0, 0.15); 
+    padding: 0.25rem; 
+    position: fixed; 
+    bottom: 0; 
+    display: flex; 
+    height: 3rem; 
+    /* 부모크기에 맞춰서 */
+    box-sizing: border-box; 
+  }
+  #input { 
+    border: none; 
+    padding: 0 1rem; 
+    flex-grow: 1; 
+    border-radius: 2rem; 
+    margin: 0.25rem; 
+  }
+  #input:focus { 
+    outline: none; 
+  }
+  #form > button { 
+    background: #333; 
+    border: none; 
+    padding: 0 1rem; 
+    margin: 0.25rem; 
+    border-radius: 3px; 
+    outline: none; 
+    color: #fff; 
   }
 
-
-  /* 채팅창 */
-  #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-  #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
-  #input:focus { outline: none; }
-  #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
-
-  #messages { list-style-type: none; margin: 0; padding: 0; }
-  #messages > li { padding: 0.5rem 1rem; color:white}
-
-  #main{
-    position: relative;
-    margin:0px;
+  #messages { 
+    list-style-type: none; 
+    margin: 0; 
+    margin-bottom: 110px;
+    padding: 0; 
+  }
+  #messages > li { 
+    padding: 0.5rem 1rem; 
+    margin:8px 10px;
+    border-radius: 2px;
+    color:white;
+    background-color: rgb(185 185 185 / 34%);
+    word-wrap: break-word
   }
 
-  .leavechat{
-    position: absolute;
-    top:0px;
-    right:30px;
-    color: white;
-    font-size:18px;
-    text-decoration: none;
+  #messages > li.me {
+    background-color: rgb(115 109 109);
+    text-align:left;
   }
-
-  .leavechat:hover::after{
-    content:' 나가기'
-  }
-
-  #player{
-    margin-top: 18px;
-  }
-  .chatopen{
-    cursor:pointer;
-    position:absolute;
-    right:30px;
-  }
-
-  .chatopen.hide{
-    display:none;
-  }
+  
