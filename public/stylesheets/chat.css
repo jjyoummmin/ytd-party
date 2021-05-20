@@ -62,3 +62,34 @@ body {
 
   #messages { list-style-type: none; margin: 0; padding: 0; }
   #messages > li { padding: 0.5rem 1rem; color:white}
+
+  #main{
+    position: relative;
+    margin:0px;
+  }
+
+  .leavechat{
+    position: absolute;
+    top:0px;
+    right:30px;
+    color: white;
+    font-size:18px;
+    text-decoration: none;
+  }
+
+  .leavechat:hover::after{
+    content:' 나가기'
+  }
+
+  #player{
+    margin-top: 18px;
+  }
+  .chatopen{
+    cursor:pointer;
+    position:absolute;
+    right:30px;
+  }
+
+  .chatopen.hide{
+    display:none;
+  }
