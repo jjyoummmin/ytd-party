@@ -1,8 +1,6 @@
 const url = window.location.href;
 const rid = [...url.match(/(?<=\?rid=).+$/)][0];
-  
-//유튜브 화면 그리기
-// DOMContentLoaded 이전에 iframe api가 ready되서 이 함수 호출을 못하게 되는 경우가 있어서 이것은 dom-ready 함수 밖으로 뺌
+
 let player;
 window.onYouTubeIframeAPIReady = () => {
   (async function () {
@@ -13,21 +11,24 @@ window.onYouTubeIframeAPIReady = () => {
       width: '100%',
       videoId: video_id,
       playerVars: {
-        autoplay: 0,
-        rel: 0,
-        modestbranding: 1,
-        controls: 1,
-        disablekb: 1,
-        enablejsapi: 1,
+        autoplay: 0,                
+        modestbranding: 1,         
+        controls: 0,                
+        disablekb: 1,               
+        enablejsapi: 1,              
       },
+      events: {
+        'onReady': onPlayerReady,
+      }
     });
   })();
 }
 
+
+
+
 $(function () {
   const name = $('#name').text();
-  //각종 이벤트 핸들러 등록하기
-  //두번이상 참조되는 dom들은 따로 상수화
   const $mySidenav = $('#mySidenav');
   const $main = $('#main');
   const $chatopen = $('.chatopen');
@@ -47,37 +48,9 @@ $(function () {
     $chatopen.removeClass('hide');
   })
 
-  $('#playBtn').on('click', playVideo);
-  $('#pauseBtn').on('click', pauseVideo);
   $('#form').on('submit', sendMessage);
-  $('#slider').on('input', (e) => changeTime(e.target))
   $('#volume').on('input', (e) => changeVolume(e.target))
 
-  function playVideo() {
-    socket.emit('play', rid)
-    player.playVideo();
-    // 이거 때매 슬라이더 움직임
-    setInterval(() => {
-      let fraction = player.getCurrentTime() / player.getDuration() * 100;
-      $slider.val(fraction);
-      socket.emit('slider', slider.value);
-    }, 200)
-  }
-
-  function pauseVideo() {
-    socket.emit('pause', rid)
-    player.pauseVideo();
-  }
-
-
-  function changeTime(self) {
-    console.log("changeTime");
-    let goTo = player.getDuration() * (self.value / 100);
-    self.value = goTo;
-    socket.emit('update', goTo);
-    player.seekTo(goTo, true);
-
-  }
 
   function changeVolume(self){
     player.setVolume(+self.value);
@@ -86,18 +59,31 @@ $(function () {
   function sendMessage(e){
     e.preventDefault();
     let msg =  $input.val();
+    if(!msg) return;
     $input.val('');
-    if (msg) {
-      socket.emit('chat message', msg);
-      $messages.append(`<li class="me">${msg}</li>`);
-      document.getElementById('mySidenav').scrollTo(0, document.body.scrollHeight);
-    }
+    socket.emit('chat message', msg);
+    $messages.append(`<li class="me">${msg}</li>`);
+    document.getElementById('mySidenav').scrollTo(0, document.body.scrollHeight);
   }
 
-  //서버와 소켓 통신으로 전환 (http => 웹소켓)
+  //소켓 통신으로 전환
   let socket = io.connect('http://localhost:3000');
-  socket.emit('join', rid, name);
 
+  window.onPlayerReady = function(){
+    //호스트 재생정보 요청
+    socket.emit('request hostplayinfo', rid);
+  }
+  
+  socket.emit('join', rid, name, false);
+
+  //받은 호스트 재생 정보로 초기 실행 싱크 맞추기
+  socket.on('reply hostplayinfo', (state,time)=>{
+      console.log("replied host play info", state, time);
+      if(state===1 || state===3){
+        player.seekTo(time,true);
+        player.playVideo();
+      }
+  })
 
   socket.on('update', (data) => {
     console.log('Received data', data);
@@ -128,12 +114,9 @@ $(function () {
     document.getElementById('mySidenav').scrollTo(0, document.body.scrollHeight);
   });
 
-  socket.on('disconnect',()=>{
-    console.log('소켓 연결 끊겼다..')
+  socket.on('error', (msg)=>{
+    console.log(msg);
     window.location.href='/home';
   })
+
 })
-
-
-
-

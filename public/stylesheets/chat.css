@@ -32,6 +32,9 @@ body {
   display:block;
   width:100%;
 }
+.memberslider{
+  pointer-events: none;
+}
 
 .chatopen{
   cursor:pointer;
@@ -113,6 +116,18 @@ body {
     border-radius: 3px; 
     outline: none; 
     color: #fff; 
+  }
+
+  #warn{
+    color:#848484;
+    background-color: rgb(41 41 41);
+    text-align:center;
+    margin:5px 10px;
+    padding:10px;
+    width:180px;
+    position: absolute;
+    top:0px;
+    font-size:14px;
   }
 
   #messages { 
