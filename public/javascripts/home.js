@@ -9,7 +9,7 @@ $(async function () {
 
         function add_thumbnail(info) {
             const {video_url, title, host, room_id} = info;
-            let video_id = [...video_url.match(/(?<=\?v=).+$/)][0];
+            let video_id = [...video_url.match(/(?<=\?v=)[^&]+/)][0];
             let elem = `<li>
                 <a href="/chat?rid=${room_id}"><img src="https://img.youtube.com/vi/${video_id}/mqdefault.jpg"></a>
                 <div>${title}</div>

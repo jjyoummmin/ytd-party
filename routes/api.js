@@ -21,7 +21,7 @@ module.exports = (db) => {
   router.get('/create_room', function (req, res, next) {
     const video_url = req.query.url
     console.log(video_url);
-    const video_id = [...video_url.match(/(?<=\?v=).+$/)][0];
+    const video_id = [...video_url.match(/(?<=\?v=)[^&]+/)][0];
     getYoutubeTitle(video_id, function (err, title) {
       let rid = shortid.generate();
       let new_room = {
