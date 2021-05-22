@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 const getYoutubeTitle = require('get-youtube-title');
 const shortid = require('shortid');
+const apiKey = require('../config/apikey.json');
 
 module.exports = (db) => {
   /* GET users listing. */
@@ -21,8 +22,9 @@ module.exports = (db) => {
   router.get('/create_room', function (req, res, next) {
     const video_url = req.query.url
     console.log(video_url);
-    const video_id = [...video_url.match(/(?<=\?v=)[^&]+/)][0];
-    getYoutubeTitle(video_id, function (err, title) {
+    const video_id = [...video_url.match(/(?<=\?v=).+$/)][0];
+    getYoutubeTitle(video_id, apiKey.YOUTUBE, function (err, title) {
+      console.log("TITLE", title, "VID", video_id);
       let rid = shortid.generate();
       let new_room = {
         video_url, 

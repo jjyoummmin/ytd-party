@@ -4,7 +4,10 @@ package-lock.json
 
 db/*.json
 
-config/login.json
-config/session.json
+# config/login.json
+# config/session.json
+# config/apikey.json
+
+config/*[^.template].json
 
 
