@@ -3,6 +3,8 @@
 
 [참고한 코드](https://github.com/aayush1408/Socket-Player)
 
+[🍇heroku 페이지](https://sleepy-plateau-27841.herokuapp.com/)
+
 |    |   |
 |-------------|-------------|
 | ![로그인화면](https://github.com/jjyoummmin/ytd-party/blob/main/%EB%8D%B0%EB%AA%A8%EC%98%81%EC%83%81/1.PNG)  |![홈화면](https://github.com/jjyoummmin/ytd-party/blob/main/%EB%8D%B0%EB%AA%A8%EC%98%81%EC%83%81/2.PNG)|
